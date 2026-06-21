@@ -38,7 +38,10 @@ cargo build --release
 cp target/release/indeed-mcp ~/.local/bin/
 ```
 
-### Configure in OpenCode
+### MCP Client Configuration
+
+<details>
+<summary><b>OpenCode</b></summary>
 
 Add to `opencode.json`:
 
@@ -53,6 +56,99 @@ Add to `opencode.json`:
   }
 }
 ```
+</details>
+
+<details>
+<summary><b>Claude Code</b></summary>
+
+Add to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "indeed": {
+      "type": "stdio",
+      "command": "/home/youruser/.local/bin/indeed-mcp"
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Codex CLI</b></summary>
+
+Add to `.codex/settings.json` in your project root:
+
+```json
+{
+  "mcpServers": {
+    "indeed": {
+      "type": "stdio",
+      "command": "/home/youruser/.local/bin/indeed-mcp"
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Claude Desktop</b></summary>
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "indeed": {
+      "command": "/home/youruser/.local/bin/indeed-mcp"
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Cursor</b></summary>
+
+In Cursor settings → Features → MCP Servers, add:
+
+```
+Type:     stdio
+Name:     indeed
+Command:  /home/youruser/.local/bin/indeed-mcp
+```
+</details>
+
+<details>
+<summary><b>Continue (VS Code / JetBrains)</b></summary>
+
+Add to `~/.continue/config.json`:
+
+```json
+{
+  "experimental": {
+    "mcpServers": {
+      "indeed": {
+        "type": "stdio",
+        "command": "/home/youruser/.local/bin/indeed-mcp"
+      }
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Any MCP client (generic)</b></summary>
+
+The server speaks standard MCP over stdio. Configure your client to spawn the binary as a subprocess with no arguments. JSON-RPC messages are exchanged over stdin/stdout.
+
+```bash
+# Test the server works with any client:
+echo '{"jsonrpc":"2.0","id":"1","method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"0.1.0"}}}' | /home/youruser/.local/bin/indeed-mcp
+```
+</details>
 
 ### Auth
 
